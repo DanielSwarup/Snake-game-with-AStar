@@ -1,6 +1,10 @@
 import pygame
 pygame.init()
 from SnakeLink import *
+from Food import *
+from random import seed
+from random import randint
+seed(2)
 class Snake:
     def __init__(self, screen, snakeX,snakeY,gameWidth,gameHeight):
         self.screen = screen
@@ -12,24 +16,44 @@ class Snake:
         self.gameHeight = gameHeight
         self.ticksPast = pygame.time.get_ticks()
         self.snakeLinks = []
+        self.food = []
+        self.foodX = randint(0,self.gameWidth/10)*10
+        self.foodY = randint(0,self.gameHeight/10)*10
         self.direction = "UP"
-        self.oldPos = []
         self.__createFirstLink()
-        self.createNewLinks()
-        self.createNewLinks()
-        self.createNewLinks()
-
-
-
-
+        for x in range(3):
+            self.createNewLinks()
+        self.__createFood()
 
     def snakeMain(self):
         self.__headMove()
         for x in self.snakeLinks:
             x.linkMain()
+        for i in self.food:
+            i.foodMain()
+        self.__eatFood()
+    def __eatFood(self):
+        if (self.snakeLinks[0].getLinkX() == self.foodX and self.snakeLinks[0].getLinkY() == self.foodY):
+            print("working")
+            self.food *= 0
+            for x in range(3):
+                self.createNewLinks()
+            self.foodX = randint(0,self.gameWidth/10)*10
+            self.foodY = randint(0,self.gameHeight/10)*10
+            self.__createFood()
 
+
+            
     def __createFirstLink(self):
         self.snakeLinks.append(SnakeLink(self.screen,self.snakeX,self.snakeY,self.gameWidth,self.gameHeight,self.direction))
+
+    def __createFood(self):
+        for x in self.snakeLinks:
+            if (x.getLinkX == self.foodX) and (x.getLinkY == self.foodY ):
+                self.foodX = randint(0,self.gameWidth/10)*10
+                self.foodY = randint(0,self.gameHeight/10)*10
+            else: 
+                self.food.append(Food(self.screen, self.foodX, self.foodY,self.gameWidth,self.gameHeight))
 
     def createNewLinks(self):
         if self.direction == "RT":
@@ -41,10 +65,9 @@ class Snake:
         else:
             self.snakeLinks.append(SnakeLink(self.screen,self.snakeLinks[len(self.snakeLinks)-1].getLinkX(),self.snakeLinks[len(self.snakeLinks)-1].getLinkY()-10,self.gameWidth,self.gameHeight,self.snakeLinks[len(self.snakeLinks)-1].getDirection()))
             
-
+    def getLinks(self):
+        return self.snakeLinks()
     def moveAllLink(self):
-        print(len(self.snakeLinks)-1)
-
         for x in range(len(self.snakeLinks)-1,-1,-1):
             self.snakeLinks[x].moveLink(self.snakeLinks[x-1].getLinkX(),self.snakeLinks[x-1].getLinkY())
 
@@ -57,7 +80,7 @@ class Snake:
 
         #Directional Maniplulation
         self.keyPressed = pygame.key.get_pressed()
-        if(self.ticksPast % 300 == 0):
+        if(self.ticksPast % 200 == 0):
             if(self.snakeX>0) and (self.snakeX<self.gameWidth-10):
                 self.snakeX += self.snakeDX
             if(self.snakeY>0) and (self.snakeY<self.gameHeight -10):

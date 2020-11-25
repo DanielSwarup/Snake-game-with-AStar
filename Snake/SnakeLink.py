@@ -1,6 +1,5 @@
 import pygame
 pygame.init()
-from SnakeMain import *
 class SnakeLink:
     def __init__(self, screen, linkX,linkY,gameWidth,gameHeight,direction):
         self.screen = screen
@@ -9,10 +8,11 @@ class SnakeLink:
         self.gameWidth = gameWidth
         self.gameHeight = gameHeight
         self.directon = direction
+        self.color = (0,200,0) 
+
     def linkMain(self):
         self.__drawSnakeLink()
     def __drawSnakeLink(self):
-        self.color = (0,200,0) 
         pygame.draw.rect(self.screen, self.color, pygame.Rect(self.linkX, self.linkY, 10, 10)) 
 
     def moveLink(self, frontX,frontY):

@@ -37,15 +37,11 @@ def simState(screen, gameWidth,gameHeight):
     screen.fill((100,100,100))
     simRunning = True
     snake = Snake(screen, 20,20,gameWidth,gameHeight)
-    # test = SnakeLink(screen,0,20,gameWidth,gameHeight )
     font = pygame.font.Font('arial.ttf', 25) 
     while simRunning:
-
         screen.fill((100,100,100))
 
         snake.snakeMain()
-        # test.linkMain()
-
 
         pygame.display.update()
         # Flip the display
@@ -68,21 +64,6 @@ def main():
     #startState(screen)
     simState(screen, gameWidth, gameHeight)
 
-
-#-------------------------------------------------------------------------------------------
-
-#-------------------------------------------------------------------------------------------
-
-class Food:
-    def __init__(self, screen, gameWidth,gameHeight):
-        self.screen = screen
-        self.gameWidth = gameWidth
-        self.gameHeight = gameHeight
-
-
-
-
-#-------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()  
