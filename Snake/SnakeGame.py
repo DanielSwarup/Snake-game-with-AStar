@@ -43,12 +43,14 @@ class SnakeGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+
     def __gameState(self):
         self.snake = Snake(self.screen, 20,20,self.gameWidth,self.gameHeight)
         while self.state == 1:
             self.screen.fill((100,100,100))
             self.snake.snakeMain()
-
+            if self.snake.isDead():
+                self.__gameState()
             pygame.display.update()
             # Flip the display
             pygame.display.flip()
