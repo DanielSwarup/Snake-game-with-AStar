@@ -1,7 +1,11 @@
+#Importing and initalizing PyGame for graphics
 import pygame
 pygame.init()
+#Import SnakeLink and Food classes
 from SnakeLink import *
 from Food import *
+
+#Importing Seed and randint from Random library
 from random import seed
 from random import randint
 seed(2)
@@ -31,13 +35,11 @@ class Snake:
             x.linkMain()
         for i in self.food:
             i.foodMain()
-        self.__eatFood()
+
     def __eatFood(self):
         if (self.snakeLinks[0].getLinkX() == self.foodX and self.snakeLinks[0].getLinkY() == self.foodY):
-            print("working")
             self.food *= 0
-            for x in range(3):
-                self.createNewLinks()
+            self.createNewLinks()
             self.foodX = randint(0,self.gameWidth/10)*10
             self.foodY = randint(0,self.gameHeight/10)*10
             self.__createFood()
@@ -76,16 +78,17 @@ class Snake:
         self.snakeLinks[0].moveLink(self.snakeX,self.snakeY)
         self.ticksPast = pygame.time.get_ticks()
 
-
-
         #Directional Maniplulation
         self.keyPressed = pygame.key.get_pressed()
-        if(self.ticksPast % 200 == 0):
+        if(self.ticksPast % 100 == 0):
             if(self.snakeX>0) and (self.snakeX<self.gameWidth-10):
                 self.snakeX += self.snakeDX
+                self.__eatFood()
             if(self.snakeY>0) and (self.snakeY<self.gameHeight -10):
                 self.snakeY += self.snakeDY
+                self.__eatFood()
             self.moveAllLink()
+            
 
         # User interactions for Snake head movement
         if(self.snakeX>0):
