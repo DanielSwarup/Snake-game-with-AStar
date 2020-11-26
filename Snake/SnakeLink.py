@@ -19,7 +19,7 @@ class SnakeLink:
 
     #Drawing Link
     def __drawSnakeLink(self):
-        pygame.draw.rect(self.screen, self.color, pygame.Rect(self.linkX, self.linkY, 10, 10)) 
+        pygame.draw.rect(self.screen, self.color, pygame.Rect(self.linkX, self.linkY, 9, 9)) 
 
     #Setter method to update Link X and Y coordinate
     def moveLink(self, frontX,frontY):

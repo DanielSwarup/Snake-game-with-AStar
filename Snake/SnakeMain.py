@@ -10,7 +10,6 @@ from random import seed
 from random import randint
 seed(2)
 
-#TO-DO: Create wall collisions, create death on self collisions, and fix eating hit box
 #Next: Implement A* algo
 #Possible: Implement a more efficient food position system
 
@@ -43,9 +42,15 @@ class Snake:
         self.__headMove()
         for x in self.snakeLinks:
             x.linkMain()
+
         for i in self.food:
             i.foodMain()
-
+        self.__selfCollision()
+    #Function to check self collision       
+    def __selfCollision(self):
+        for i in range(len(self.snakeLinks)-1,1,-1):
+            if (self.snakeX == self.snakeLinks[i].getLinkX() and self.snakeY == self.snakeLinks[i].getLinkY()):
+                self.dead = True
     #Function to eat the food, create new food, and grow the snake
     def __eatFood(self):
         if (self.snakeLinks[0].getLinkX() == self.foodX and self.snakeLinks[0].getLinkY() == self.foodY):
