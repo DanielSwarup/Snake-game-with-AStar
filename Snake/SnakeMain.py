@@ -10,7 +10,7 @@ from AStar import*
 #Importing Seed and randint from Random library
 from random import seed
 from random import randint
-seed(2)
+seed(1)
 
 #Next: Implement A* algo
 #Possible: Implement a more efficient food position system
@@ -33,6 +33,8 @@ class Snake:
         self.foodX = randint(0,self.gameWidth/10)*10
         self.foodY = randint(0,self.gameHeight/10)*10
         self.direction = "UP"
+
+        self.counter = 0
         #create a snake with 4 links
         self.__createFirstLink()
         for x in range(3):
@@ -40,9 +42,10 @@ class Snake:
         self.__createFood()
         self.__aStarAlgo()
 
+
     #Main member function for handeling the snake
     def snakeMain(self):
-        # self.__headMove()
+        self.__headMove()
         for x in self.snakeLinks:
             x.linkMain()
 
@@ -50,15 +53,16 @@ class Snake:
             i.foodMain()
         self.__selfCollision()
 
+
+
+
+
     def __aStarAlgo(self):
         #EXPERIMENTAL
         self.aStar = [AStar((self.snakeLinks[0].getLinkX(),self.snakeLinks[0].getLinkY()),(self.foodX, self.foodY))]
         self.aStar = self.aStar[0].algo()
         print(self.aStar)
         #---------------
-    def addToSnake(self, queue):
-        self.snakeX = queue[0]
-        self.snakeY = queue[1]
 
     #Function to check self collision       
     def __selfCollision(self):
@@ -71,8 +75,8 @@ class Snake:
         if (self.snakeLinks[0].getLinkX() == self.foodX and self.snakeLinks[0].getLinkY() == self.foodY):
             self.food *= 0
             self.createNewLinks()
-            self.foodX = randint(0,(self.gameWidth-20)/10)*10
-            self.foodY = randint(0,(self.gameHeight-20)/10)*10
+            self.foodX = randint(20,(self.gameWidth-20)/10)*10
+            self.foodY = randint(20,(self.gameHeight-20)/10)*10
             self.__createFood()
     
     #Creating the first(Head) link of the snake
@@ -83,8 +87,8 @@ class Snake:
     def __createFood(self):
         for x in self.snakeLinks:
             if (x.getLinkX == self.foodX) and (x.getLinkY == self.foodY ):
-                self.foodX = randint(10,(self.gameWidth-10)/10)*10
-                self.foodY = randint(10,(self.gameHeight-10)/10)*10
+                self.foodX = randint(20,(self.gameWidth-20)/10)*10
+                self.foodY = randint(20,(self.gameHeight-20)/10)*10
             else: 
                 self.food.append(Food(self.screen, self.foodX, self.foodY,self.gameWidth,self.gameHeight))
 
@@ -105,22 +109,30 @@ class Snake:
     
     #Function in charge of moving the links
     def moveAllLink(self):
-        for x in range(len(self.snakeLinks)-1,-1,-1):
+        for x in range(len(self.snakeLinks)-1,0,-1):
             self.snakeLinks[x].moveLink(self.snakeLinks[x-1].getLinkX(),self.snakeLinks[x-1].getLinkY())
 
     #Function handles movement of Head
     def __headMove(self):
-        self.snakeLinks[0].moveLink(self.snakeX,self.snakeY)
+        #self.snakeLinks[0].moveLink(self.snakeX,self.snakeY)
         self.ticksPast = pygame.time.get_ticks()
 
         #Directional Maniplulation
         self.keyPressed = pygame.key.get_pressed()
-        if(self.ticksPast % 100 == 0):
+        if(self.ticksPast % 10 == 0):
+            if(self.aStar):
+                self.snakeLinks[0].moveLink(self.aStar[0][0],self.aStar[0][1])
+                self.aStar.pop(0)
+                #self.moveAllLink()
+            else:
+                self.__aStarAlgo()
+
+
             if(self.snakeX>0) and (self.snakeX<self.gameWidth-10):
-                self.snakeX += self.snakeDX
+                #self.snakeX += self.snakeDX
                 self.__eatFood()
             if(self.snakeY>0) and (self.snakeY<self.gameHeight -10):
-                self.snakeY += self.snakeDY
+                #self.snakeY += self.snakeDY
                 self.__eatFood()
             self.moveAllLink()
             
