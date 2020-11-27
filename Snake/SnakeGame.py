@@ -15,6 +15,13 @@ class SnakeGame:
         self.state = 0
         self.fontStart = pygame.font.Font('arial.ttf', 35) 
         self.__stateSetter()
+        
+    def __drawBoarder(self):
+        self.color = (0,0,0)
+        pygame.draw.rect(self.screen, self.color, pygame.Rect(0, 0, self.gameWidth, 10))
+        pygame.draw.rect(self.screen, self.color, pygame.Rect(0, 0, 10, self.gameHeight))
+        pygame.draw.rect(self.screen, self.color, pygame.Rect(0, self.gameHeight-10, self.gameWidth, 10))
+        pygame.draw.rect(self.screen, self.color, pygame.Rect(self.gameWidth-10, 0, 10, self.gameHeight)) 
     def __stateSetter(self):
         if self.state == 0:
             self.__startState()
@@ -48,6 +55,7 @@ class SnakeGame:
         self.snake = Snake(self.screen, 20,20,self.gameWidth,self.gameHeight)
         while self.state == 1:
             self.screen.fill((100,100,100))
+            self.__drawBoarder()
             self.snake.snakeMain()
             if self.snake.isDead():
                 self.__gameState()

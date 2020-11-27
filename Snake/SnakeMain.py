@@ -56,8 +56,8 @@ class Snake:
         if (self.snakeLinks[0].getLinkX() == self.foodX and self.snakeLinks[0].getLinkY() == self.foodY):
             self.food *= 0
             self.createNewLinks()
-            self.foodX = randint(0,self.gameWidth/10)*10
-            self.foodY = randint(0,self.gameHeight/10)*10
+            self.foodX = randint(0,(self.gameWidth-20)/10)*10
+            self.foodY = randint(0,(self.gameHeight-20)/10)*10
             self.__createFood()
     
     #Creating the first(Head) link of the snake
