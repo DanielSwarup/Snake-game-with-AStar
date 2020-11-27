@@ -1,2 +1,2 @@
-# CV-Project
+# Snake Game with A*
  
