@@ -14,13 +14,13 @@ class Node:
 
 
 class AStar:
-    def __init__(self, startPos, goalPos):
+    def __init__(self, startPos, goalPos, links):
         #Create start and goal nodes
         self.startNode = Node(startPos, None)
         self.startNode.g = self.startNode.h = self.startNode.f = 0
         self.goalNode = Node(goalPos,None)
         self.goalNode.g = self.goalNode.h = self.goalNode.f = 0
-
+        self.links = links
         #Create List for open and closed nodes 
         self.openList = []
         self.closedList = []
@@ -56,12 +56,18 @@ class AStar:
             (self.x, self.y) = self.currentNode.position
 
             self.neighbors = [(self.x-10,self.y),(self.x+10,self.y),(self.x, self.y - 10),(self.x,self.y + 10)]
+            self.test = False
+            for x in self.neighbors:  
+                self.holderX, self.holderY = x
+                for l in self.links:
+                    if  self.holderX == l.linkX  and self.holderY == l.linkY:
+                        self.test = True
 
-            for next in self.neighbors:
-                #HLDER for MAP
+                if((self.test) or (self.holderX == 0) or (self.holderY==600-10) or (self.holderY == 0) or (self.holderX==900-10)):
+                    continue
 
 
-                self.neighbor = Node(next, self.currentNode)
+                self.neighbor = Node(x, self.currentNode)                    
                 if self.neighbor in self.closedList:
                     continue
                 self.neighbor.g = abs(self.neighbor.position[0] - self.startNode.position[0]) + abs(self.neighbor.position[1] - self.startNode.position[1])  

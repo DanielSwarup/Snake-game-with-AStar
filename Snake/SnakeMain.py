@@ -10,7 +10,7 @@ from AStar import*
 #Importing Seed and randint from Random library
 from random import seed
 from random import randint
-seed(1)
+seed(3)
 
 #Next: Implement A* algo
 #Possible: Implement a more efficient food position system
@@ -59,9 +59,9 @@ class Snake:
 
     def __aStarAlgo(self):
         #EXPERIMENTAL
-        self.aStar = [AStar((self.snakeLinks[0].getLinkX(),self.snakeLinks[0].getLinkY()),(self.foodX, self.foodY))]
+        self.aStar = [AStar((self.snakeLinks[0].getLinkX(),self.snakeLinks[0].getLinkY()),(self.foodX, self.foodY),self.snakeLinks)]
         self.aStar = self.aStar[0].algo()
-        print(self.aStar)
+       # print(self.aStar)
         #---------------
 
     #Function to check self collision       
@@ -86,11 +86,12 @@ class Snake:
     #Function to create food and not collide with the snake. Can(MUST) be optimized
     def __createFood(self):
         for x in self.snakeLinks:
-            if (x.getLinkX == self.foodX) and (x.getLinkY == self.foodY ):
+            if (not((x.linkX == self.foodX) and (x.linkY == self.foodY ))):
+                self.food.append(Food(self.screen, self.foodX, self.foodY,self.gameWidth,self.gameHeight))
+            else: 
                 self.foodX = randint(20,(self.gameWidth-20)/10)*10
                 self.foodY = randint(20,(self.gameHeight-20)/10)*10
-            else: 
-                self.food.append(Food(self.screen, self.foodX, self.foodY,self.gameWidth,self.gameHeight))
+                self.__createFood()
 
     #Function to create new links(grow) the snake
     def createNewLinks(self):
