@@ -4,7 +4,6 @@
 * Python 3.X
 * Pygame
 ## To-Do ##
-* Fix Snake self/wall collision
+* Fix bug where it takes the path inside the snake but just waits for the end to catch up. - Might need to rework how tails move
 * Optimize A* to take longest path after a certian Snake length has been achieved 
-* Fix A* to not check Nodes where the rest of the body is
-* Fix A* to treat body as a solid object
+* 
