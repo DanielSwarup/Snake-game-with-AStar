@@ -6,4 +6,3 @@
 ## To-Do ##
 * Fix bug where it takes the path inside the snake but just waits for the end to catch up. - Might need to rework how tails move
 * Optimize A* to take longest path after a certian Snake length has been achieved 
-* 
